@@ -19,8 +19,15 @@ class HelloControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getHelloFromSerenity() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/hello?name=Oleg").accept(MediaType.APPLICATION_JSON))
+    public void getHelloToUnknown() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("Hello from Serenity, unknown!")));
+    }
+
+    @Test
+    public void getHelloToOleg() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/?name=Oleg").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Hello from Serenity, Oleg!")));
     }
